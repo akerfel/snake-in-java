@@ -2,7 +2,7 @@ int grid_w;
 int grid_h;
 int grid_s;
 boolean[][] grid;
-
+boolean gameActive;
 Player PL;
 
 void setup() {
@@ -12,19 +12,40 @@ void setup() {
   grid_h = 30;
   grid_s = 20;
   grid = new boolean[grid_w][grid_h];
-  
+  gameActive = true;
   PL = new Player(4, 4);
 }
 
 void draw() {
-  // Update game logic
-  PL.updatePosition();
   
-  // Draw game elements
-  drawGrid();
-  
-  // Delay until next game update
-  delay(100);
+  if (gameActive) {
+    // Update game logic
+    PL.updatePosition();
+    checkIfPlayerDies();
+    
+    // Draw game elements
+    translate((width - grid_s * grid_w)/2, (height - grid_s * grid_h)/2);
+    drawGrid();
+    
+    // Delay until next game update
+    delay(100);
+  }
+  if (!gameActive) {
+    drawGameOver();
+  }
+}
+
+// Draw game over screen
+void drawGameOver() {
+  fill(color(255, 255, 255));
+  textSize(32);
+  text("Game over", width/2, height/2);
+}
+
+void checkIfPlayerDies() {
+  if (PL.x < 0 || PL.y < 0 || PL.x > grid_w - 1 || PL.y > grid_h - 1) {
+     gameActive = false;
+  }
 }
 
 // Maybe the grid should not be drawn?
