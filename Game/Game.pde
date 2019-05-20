@@ -6,23 +6,28 @@ boolean[][] grid;
 Player PL;
 
 void setup() {
-  size(600, 800);
+  size(1200, 1200);
   background(0, 0, 0);
-  grid_w = 10;
-  grid_h = 10;
-  grid_s = 50;
+  grid_w = 30;
+  grid_h = 30;
+  grid_s = 20;
   grid = new boolean[grid_w][grid_h];
   
   PL = new Player(4, 4);
 }
 
 void draw() {
+  // Update game logic
+  PL.updatePosition();
+  
+  // Draw game elements
   drawGrid();
   
   // Delay until next game update
   delay(100);
 }
 
+// Maybe the grid should not be drawn?
 void drawGrid() {
   for (int x = 0; x < grid_w; x++) {
     for (int y = 0; y < grid_h; y++) {
@@ -44,17 +49,17 @@ void drawGrid() {
 
 void keyPressed() {
   if (key == CODED) {
-      if (keyCode == DOWN) {
-        PL.y++;
+      if (keyCode == DOWN && !PL.direction.equals("up")) {
+        PL.direction = "down";
       }
-      if (keyCode == UP) {
-        PL.y--;
+      if (keyCode == UP && !PL.direction.equals("down")) {
+        PL.direction = "up";
       }
-      if (keyCode == RIGHT) {
-        PL.x++;
+      if (keyCode == RIGHT && !PL.direction.equals("left")) {
+        PL.direction = "right";
       }
-      if (keyCode == LEFT) {
-        PL.x--;
+      if (keyCode == LEFT && !PL.direction.equals("right")) {
+        PL.direction = "left";
       }
     }
 }
