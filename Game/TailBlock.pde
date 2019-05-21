@@ -2,6 +2,7 @@ public class TailBlock {
   int x;
   int y;
   String direction;
+  boolean wasJustAdded;
   
   public TailBlock(int startX, int startY, String direction) {
     this.x = startX;

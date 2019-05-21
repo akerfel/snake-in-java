@@ -3,12 +3,14 @@ public class Player {
   int y;
   String direction;
   ArrayList<TailBlock> tailBlocks;
+  boolean justAddedTailBlock;
   
   public Player(int x, int y) {
     this.x = x;
     this.y = y;
     direction = "down";
     tailBlocks = new ArrayList<TailBlock>();
+    justAddedTailBlock = false;
   }
 
   public void updatePosition() {
@@ -44,8 +46,13 @@ public class Player {
   }
   
   public void updateTailBlocksPosition() {
-    for (TailBlock tailBlock : tailBlocks) {
-      tailBlock.updatePosition();
+    if (justAddedTailBlock) {
+      justAddedTailBlock = false;  
+    }
+    else {
+      for (TailBlock tailBlock : tailBlocks) {
+        tailBlock.updatePosition();
+      }
     }
   }
   
@@ -63,6 +70,9 @@ public class Player {
       case "left": 
         tailBlocks.add(0, new TailBlock(x + 1, y, direction));
         break;
+    }
+    if (tailBlocks.size() != 1) {
+      justAddedTailBlock = true;
     }
   }
   

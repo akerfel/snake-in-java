@@ -66,7 +66,9 @@ void drawGrid() {
       }
     }
   }
-  
+}
+
+void removeTailBlocksEntireSnakeHasPassed() {
   
 }
 
