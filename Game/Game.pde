@@ -4,6 +4,7 @@ int grid_s;
 boolean[][] grid;
 boolean gameActive;
 Player PL;
+ArrayList<TurnBlock> activeTurnBlocks;
 
 void setup() {
   size(1200, 1200);
@@ -14,6 +15,7 @@ void setup() {
   grid = new boolean[grid_w][grid_h];
   gameActive = true;
   PL = new Player(4, 4);
+  activeTurnBlocks = new ArrayList<TurnBlock>();
 }
 
 void draw() {
@@ -26,6 +28,7 @@ void draw() {
     // Draw game elements
     translate((width - grid_s * grid_w)/2, (height - grid_s * grid_h)/2);
     drawGrid();
+    PL.draw();
     
     // Delay until next game update
     delay(100);
@@ -64,23 +67,25 @@ void drawGrid() {
     }
   }
   
-  fill(255, 255, 255);
-  rect(PL.x * grid_s, PL.y * grid_s, grid_s, grid_s);
+  
 }
 
 void keyPressed() {
   if (key == CODED) {
       if (keyCode == DOWN && !PL.direction.equals("up")) {
-        PL.direction = "down";
+        PL.changeDirection("down");
       }
       if (keyCode == UP && !PL.direction.equals("down")) {
-        PL.direction = "up";
+        PL.changeDirection("up");
       }
       if (keyCode == RIGHT && !PL.direction.equals("left")) {
-        PL.direction = "right";
+        PL.changeDirection("right");
       }
       if (keyCode == LEFT && !PL.direction.equals("right")) {
-        PL.direction = "left";
+        PL.changeDirection("left");
       }
     }
+  else if (key == ' ') {
+    PL.addTailBlock();
+  }
 }
