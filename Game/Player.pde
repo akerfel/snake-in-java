@@ -48,6 +48,12 @@ public class Player {
   public void updateTailBlocksPosition() {
     if (justAddedTailBlock) {
       justAddedTailBlock = false;  
+      for (TailBlock tailBlock : tailBlocks) {
+        if(tailBlock.wasJustAdded) {
+          tailBlock.updatePosition();
+          tailBlock.wasJustAdded = false;
+        }
+      }
     }
     else {
       for (TailBlock tailBlock : tailBlocks) {
@@ -71,9 +77,7 @@ public class Player {
         tailBlocks.add(0, new TailBlock(x + 1, y, direction));
         break;
     }
-    if (tailBlocks.size() != 1) {
-      justAddedTailBlock = true;
-    }
+    justAddedTailBlock = true;
   }
   
   public void draw() {

@@ -8,14 +8,15 @@ public class TailBlock {
     this.x = startX;
     this.y = startY;
     this.direction = direction;
+    wasJustAdded = true;
   }
 
   public void updatePosition() {
     
     switch (direction) {
       case "down": 
-        y++;
-        break;
+        y++;   
+         break;
       case "up": 
         y--;
         break;
