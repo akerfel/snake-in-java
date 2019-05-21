@@ -7,8 +7,8 @@ public class Food {
   }
   
   void randomizeLocation() {
-    x = int(random(0, grid_w));
-    y = int(random(0, grid_h));
+    x = int(random(1, grid_w - 1));
+    y = int(random(1, grid_h - 1));
   }
   
   public void draw() {
