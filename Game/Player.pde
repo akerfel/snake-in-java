@@ -29,6 +29,10 @@ public class Player {
         break;
     }
     
+    if (headCollidesWithTail()) {
+      gameActive = false;
+    }
+    
     for (TailBlock tailBlock : tailBlocks) {
       for (TurnBlock turnBlock : activeTurnBlocks) {
         if (tailBlock.hasCoordinates(turnBlock.x, turnBlock.y)) {
@@ -38,6 +42,15 @@ public class Player {
     }
     
     updateTailBlocksPosition();
+  }
+  
+  public boolean headCollidesWithTail() {
+    for (TailBlock tailBlock : tailBlocks) {
+      if (hasCoordinates(tailBlock.x, tailBlock.y)) {
+        return true;
+      }
+    }
+    return false;
   }
   
   public void changeDirection(String newDirection) {
@@ -60,6 +73,10 @@ public class Player {
         tailBlock.updatePosition();
       }
     }
+  }
+  
+  public boolean hasCoordinates(int x, int y) {
+    return this.x == x && this.y == y;  
   }
   
   public void addTailBlock() {

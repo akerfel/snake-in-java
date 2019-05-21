@@ -25,7 +25,7 @@ void draw() {
   if (gameActive) {
     // Update game logic
     PL.updatePosition();
-    checkIfPlayerDies();
+    checkIfPlayerCollidesWall();
     removeTurnBlockIfNoSnakeOnIt();
     
     // Draw game elements
@@ -48,7 +48,7 @@ void drawGameOver() {
   text("Game over", width/2, height/2);
 }
 
-void checkIfPlayerDies() {
+void checkIfPlayerCollidesWall() {
   if (PL.x < 0 || PL.y < 0 || PL.x > grid_w - 1 || PL.y > grid_h - 1) {
      gameActive = false;
   }
