@@ -7,9 +7,11 @@ boolean[][] grid;
 boolean gameActive;
 Player PL;
 ArrayList<TurnBlock> activeTurnBlocks;
+Food food;
+int score;
 
 void setup() {
-  size(1200, 1200);
+  size(800, 800);
   background(0, 0, 0);
   grid_w = 30;
   grid_h = 30;
@@ -18,34 +20,51 @@ void setup() {
   gameActive = true;
   PL = new Player(4, 4);
   activeTurnBlocks = new ArrayList<TurnBlock>();
+  food = new Food();
+  score = 0;
+  frameRate(10);
 }
 
 void draw() {
-  
   if (gameActive) {
+    clear();
     // Update game logic
     PL.updatePosition();
     checkIfPlayerCollidesWall();
     removeTurnBlockIfNoSnakeOnIt();
+    checkIfPlayerOnFood();
     
     // Draw game elements
     translate((width - grid_s * grid_w)/2, (height - grid_s * grid_h)/2);
     drawGrid();
+    food.draw();
     PL.draw();
-    
-    // Delay until next game update
-    delay(100);
+    drawScore();
   }
-  if (!gameActive) {
+  else {
     drawGameOver();
   }
 }
+
+void drawScore() {
+  fill(color(255, 255, 255));
+  textSize(32);
+  text("Score: " + score, 0, 0);
+}  
 
 // Draw game over screen
 void drawGameOver() {
   fill(color(255, 255, 255));
   textSize(32);
-  text("Game over", width/2, height/2);
+  text("Game over", 0, 35);
+}
+
+void checkIfPlayerOnFood() {
+  if (PL.hasCoordinates(food.x, food.y)) {
+    PL.addTailBlock();  
+    food.randomizeLocation();
+    score++;
+  }
 }
 
 void checkIfPlayerCollidesWall() {
@@ -88,21 +107,23 @@ void removeTurnBlockIfNoSnakeOnIt() {
 }
 
 void keyPressed() {
-  if (key == CODED) {
-      if (keyCode == DOWN && !PL.direction.equals("up")) {
-        PL.changeDirection("down");
+  if (gameActive) {
+    if (key == CODED) {
+        if (keyCode == DOWN && !PL.directionLastMoved.equals("up")) {
+          PL.changeDirection("down");
+        }
+        if (keyCode == UP && !PL.directionLastMoved.equals("down")) {
+          PL.changeDirection("up");
+        }
+        if (keyCode == RIGHT && !PL.directionLastMoved.equals("left")) {
+          PL.changeDirection("right");
+        }
+        if (keyCode == LEFT && !PL.directionLastMoved.equals("right")) {
+          PL.changeDirection("left");
+        }
       }
-      if (keyCode == UP && !PL.direction.equals("down")) {
-        PL.changeDirection("up");
-      }
-      if (keyCode == RIGHT && !PL.direction.equals("left")) {
-        PL.changeDirection("right");
-      }
-      if (keyCode == LEFT && !PL.direction.equals("right")) {
-        PL.changeDirection("left");
-      }
-    }
+  }
   else if (key == ' ') {
-    PL.addTailBlock();
+    setup();
   }
 }

@@ -2,6 +2,7 @@ public class Player {
   int x;
   int y;
   String direction;
+  String directionLastMoved;
   ArrayList<TailBlock> tailBlocks;
   boolean justAddedTailBlock;
   
@@ -28,6 +29,7 @@ public class Player {
         x--;
         break;
     }
+    directionLastMoved = direction;
     
     if (headCollidesWithTail()) {
       gameActive = false;
