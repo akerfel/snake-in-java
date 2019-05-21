@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 int grid_w;
 int grid_h;
 int grid_s;
@@ -24,6 +26,7 @@ void draw() {
     // Update game logic
     PL.updatePosition();
     checkIfPlayerDies();
+    removeTurnBlockIfNoSnakeOnIt();
     
     // Draw game elements
     translate((width - grid_s * grid_w)/2, (height - grid_s * grid_h)/2);
@@ -68,8 +71,20 @@ void drawGrid() {
   }
 }
 
-void removeTailBlocksEntireSnakeHasPassed() {
-  
+void removeTurnBlockIfNoSnakeOnIt() {
+  Iterator<TurnBlock> iterator = activeTurnBlocks.iterator();
+  while (iterator.hasNext()) {
+   TurnBlock turnBlock = iterator.next();
+   boolean willRemove = true;
+   for (TailBlock tailBlock : PL.tailBlocks) {
+     if (tailBlock.hasCoordinates(turnBlock.x, turnBlock.y)) {
+       willRemove = false;  
+     }
+   }
+   if (willRemove) {
+     iterator.remove();  
+   }
+  }
 }
 
 void keyPressed() {
