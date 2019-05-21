@@ -2,19 +2,21 @@ public class TailBlock {
   int x;
   int y;
   String direction;
+  boolean wasJustAdded;
   
   public TailBlock(int startX, int startY, String direction) {
     this.x = startX;
     this.y = startY;
     this.direction = direction;
+    wasJustAdded = true;
   }
 
   public void updatePosition() {
     
     switch (direction) {
       case "down": 
-        y++;
-        break;
+        y++;   
+         break;
       case "up": 
         y--;
         break;
